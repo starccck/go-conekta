@@ -102,6 +102,18 @@ func request(method, path string, v interface{}) (statusCode int, response []byt
 	return res.StatusCode, body
 }
 
+func Query(path string) (statusCode int, conektaError ConektaError, conektaResponse ConektaResponse) {
+	statusCode, response := request("GET", path, nil)
+	if statusCode != 200 {
+		err := json.Unmarshal(response, &conektaError)
+		checkError(err)
+	} else {
+		err := json.Unmarshal(response, &conektaResponse)
+		checkError(err)
+	}
+	return
+}
+
 func checkError(err error) {
 	if err != nil {
 		fmt.Printf("There's an error in Conekta Wrapper: %v\n", err)

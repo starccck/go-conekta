@@ -1,14 +1,19 @@
 package conekta_test
 
 import (
+	"fmt"
 	"os"
 	"testing"
 
-	"github.com/sait/go-conekta/conekta"
+	"github.com/starccck/go-conekta/conekta"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
+
+func init() {
+	conekta.ApiKey = "key_jY2xUhTdLntFxw1oDSRoAA"
+}
 
 func TestOrder(t *testing.T) {
 	RegisterFailHandler(Fail)
@@ -153,3 +158,33 @@ var _ = Describe("Handle order", func() {
 		})
 	})
 })
+
+func TestCreateCharge(t *testing.T) {
+	//New Order
+	order := new(conekta.Order)
+	item := conekta.LineItem{
+		Name:      "Tortugas",
+		UnitPrice: 1000,
+		Quantity:  12,
+	}
+	order.LineItems = append(order.LineItems, item)
+
+	order.Currency = "MXN"
+	order.CustomerInfo.CustomerID = "cus_2meuT6LiCqTjq8r2p"
+
+	charge := conekta.Charge{
+		PaymentMethod: conekta.PaymentMethod{
+			Type: "oxxo_cash",
+		},
+		Currency: "MXN",
+	}
+	_, _, conektaResp := order.Create()
+	fmt.Fprintf(os.Stdout, "resp: %v \n", conektaResp)
+
+	order.ID = conektaResp.ID
+	_, _, charge = order.CreateCharge(charge)
+	fmt.Fprintf(os.Stdout, "charge resp: %v \n", charge)
+
+	_, _, chargeResp := conekta.QueryCharges(order.ID)
+	fmt.Fprintf(os.Stdout, "chargeResp: %v \n", chargeResp)
+}

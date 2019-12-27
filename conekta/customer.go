@@ -2,6 +2,7 @@ package conekta
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 type Customer struct {
@@ -65,6 +66,11 @@ type Subscription struct {
 	TrialEnd          int64  `json:"trial_end,omitempty"`
 	PlanID            string `json:"plan_id,omitempty"`
 	Status            string `json:"status,omitempty"`
+}
+
+func (c *Customer) Get() (statusCode int, conektaError ConektaError, conektaResponse ConektaResponse) {
+	path := fmt.Sprintf("/customers/%s", c.CustomerID)
+	return Query(path)
 }
 
 func (c *Customer) Create() (statusCode int, conektaError ConektaError, conektaResponse ConektaResponse) {

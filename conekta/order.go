@@ -2,6 +2,8 @@ package conekta
 
 import (
 	"encoding/json"
+	"fmt"
+	"os"
 )
 
 type Order struct {
@@ -119,6 +121,11 @@ type PaymentMethod struct {
 	ReceivingAccountNumber string  `json:"receiving_account_number,omitempty"`
 }
 
+func (o *Order) Get() (statusCode int, conektaError ConektaError, conektaResponse ConektaResponse) {
+	path := fmt.Sprintf("/customers/%s", o.ID)
+	return Query(path)
+}
+
 // Creates a new Order
 func (o *Order) Create() (statusCode int, conektaError ConektaError, conektaResponse ConektaResponse) {
 	statusCode, response := request("POST", "/orders", o)
@@ -129,6 +136,7 @@ func (o *Order) Create() (statusCode int, conektaError ConektaError, conektaResp
 		err := json.Unmarshal(response, &conektaResponse)
 		checkError(err)
 	}
+	fmt.Fprintf(os.Stdout, "create order: %v \n", string(response))
 	return
 }
 
@@ -168,5 +176,35 @@ func (o *Order) Refund() (statusCode int, conektaError ConektaError, conektaResp
 		err := json.Unmarshal(response, &conektaResponse)
 		checkError(err)
 	}
+	return
+}
+
+// Create a charge with an existed order
+func (o *Order) CreateCharge(chargeReq Charge) (statusCode int, conektaError ConektaError, charge Charge) {
+	statusCode, response := request("POST", "/orders/"+o.ID+"/charges", chargeReq)
+	if statusCode != 200 {
+		err := json.Unmarshal(response, &conektaError)
+		checkError(err)
+	} else {
+		err := json.Unmarshal(response, &charge)
+		checkError(err)
+	}
+	return
+}
+
+// Query charge with given orderId
+func QueryCharges(orderId string) (statusCode int, conektaError ConektaError, charges Charges) {
+	path := fmt.Sprintf("/orders/%s/charges", orderId)
+	var resp []byte
+
+	statusCode, resp = request("GET", path, nil)
+	if statusCode != 200 {
+		err := json.Unmarshal(resp, &conektaError)
+		checkError(err)
+	} else {
+		err := json.Unmarshal(resp, &charges)
+		checkError(err)
+	}
+
 	return
 }

@@ -14,6 +14,10 @@ type Event struct {
 
 // EventData conekta event callback
 type EventData struct {
+	Object EventDataObject `json:"object,omitempty"`
+}
+
+type EventDataObject struct {
 	ConektaResponse
 	Description   string        `json:"description,omitempty"`
 	PaymentMethod PaymentMethod `json:"payment_method,omitempty"`

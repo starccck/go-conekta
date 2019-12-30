@@ -36,7 +36,7 @@ type LineItem struct {
 	UnitPrice     int64         `json:"unit_price"`
 	Quantity      int64         `json:"quantity,omitempty"`
 	Sku           string        `json:"sku,omitempty"`
-	Tags          Tags          `json:"tags,omitempty"`
+	Tags          []string      `json:"tags,omitempty"`
 	Brand         string        `json:"brand,omitempty"`
 	ParentID      string        `json:"parent_id,omitempty"`
 	Metadata      Metadata      `json:"metadata,omitempty"`

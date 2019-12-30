@@ -28,3 +28,42 @@ type WebhookLogs struct {
 	Object                 string `json:"object,omitempty"`
 	LastAttemptedAt        int64  `json:"last_attempted_at,omitempty"`
 }
+
+// EventType conekta webhook event type
+type EventType = string
+
+// various kinds of conekta webhook event type
+const (
+	OrderCreated      EventType = "order.created"
+	OrderPaid                   = "order.paid"
+	OrderExpiredOxxO            = "order.expired"
+	ChargeCreatedOxxO           = "charge.created(oxxo)"
+	ChargeCreatedCard           = "charge.created"
+	ChargePaidOxxO              = "charge.paid"
+	ChargePaidCard              = "charge.paid(oxxo)"
+	ChargeRefunded              = "charge.refunded"
+	ChargebackCreated           = "charge.chargeback.created"
+	PlanCreated                 = "plan.created"
+	SubsCreated                 = "subscription.created"
+	SubsPaid                    = "subscription.paid"
+	SubsCanceled                = "subscription.canceled"
+	SubsPaymentFailed           = "subscription.payment_failed"
+)
+
+// ConektaEventMap conekta webhook event callback type
+var ConektaEventMap = map[string]EventType{
+	"order.created":               OrderCreated,
+	"order.paid":                  OrderPaid,
+	"order.expired":               OrderExpiredOxxO,
+	"charge.created(oxxo)":        ChargeCreatedOxxO,
+	"charge.created":              ChargeCreatedCard,
+	"charge.paid":                 ChargePaidOxxO,
+	"charge.paid(oxxo)":           ChargePaidCard,
+	"charge.refunded":             ChargeRefunded,
+	"charge.chargeback.created":   ChargebackCreated,
+	"plan.created":                PlanCreated,
+	"subscription.created":        SubsCreated,
+	"subscription.paid":           SubsPaid,
+	"subscription.canceled":       SubsCanceled,
+	"subscription.payment_failed": SubsPaymentFailed,
+}

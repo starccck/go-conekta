@@ -2,14 +2,14 @@ package conekta
 
 // Event conekta Event callback
 type Event struct {
-	ID            string      `json:"id,omitempty"`
-	Object        string      `json:"object,omitempty"`
-	Livemode      *bool       `json:"livemode,omitempty"`
-	CreatedAt     int64       `json:"created_at,omitempty"`
-	Type          string      `json:"type,omitempty"`
-	Data          EventData   `json:"data,omitempty"`
-	WebhookStatus string      `json:"webhook_status,omitempty"`
-	WebhookLogs   WebhookLogs `json:"webhook_logs,omitempty"`
+	ID            string        `json:"id,omitempty"`
+	Object        string        `json:"object,omitempty"`
+	Livemode      *bool         `json:"livemode,omitempty"`
+	CreatedAt     int64         `json:"created_at,omitempty"`
+	Type          string        `json:"type,omitempty"`
+	Data          EventData     `json:"data,omitempty"`
+	WebhookStatus string        `json:"webhook_status,omitempty"`
+	WebhookLogs   []WebhookLogs `json:"webhook_logs,omitempty"`
 }
 
 // EventData conekta event callback

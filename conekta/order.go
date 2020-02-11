@@ -110,7 +110,7 @@ type PaymentMethod struct {
 	Name                   string  `json:"name,omitempty"`
 	ExpMonth               string  `json:"exp_month,omitempty"`
 	ExpYear                string  `json:"exp_year,omitempty"`
-	AuthCode               string  `json:"auth_code,omitempty"`
+	AuthCode               int64   `json:"auth_code,omitempty"`
 	Last4                  string  `json:"last4,omitempty"`
 	Brand                  string  `json:"brand,omitempty"`
 	Issuer                 string  `json:"issuer,omitempty"`

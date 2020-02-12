@@ -41,6 +41,8 @@ type ConektaResponse struct {
 	LineItems       LineItems       `json:"line_items"`
 	ShippingLines   ShippingLines   `json:"shipping_lines,omitempty"`
 	Charges         Charges         `json:"charges,omitempty"`
+	CustomerID      string          `json:"customer_id,omittempty"`
+	OrderID         string          `json:"order_id,omitempty"`
 }
 
 type Charges struct {
